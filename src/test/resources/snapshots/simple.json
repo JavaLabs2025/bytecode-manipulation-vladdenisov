@@ -1,0 +1,49 @@
+{
+  "project" : "test.jar",
+  "summary" : {
+    "classesAnalyzed" : 2,
+    "interfacesAnalyzed" : 0,
+    "inheritanceDepth" : {
+      "max" : 1,
+      "avg" : 0.5
+    },
+    "abc" : {
+      "totalStores" : 3,
+      "avgStoresPerClass" : 1.5,
+      "avgStoresPerMethod" : 1.5
+    },
+    "overrides" : {
+      "avgOverriddenMethodsPerClass" : 0.5
+    },
+    "fields" : {
+      "avgFieldsPerClass" : 3.0
+    }
+  },
+  "byClass" : [ {
+    "name" : "A",
+    "isInterface" : false,
+    "superName" : "java/lang/Object",
+    "interfaces" : [ ],
+    "dit" : 0,
+    "fieldsCount" : 2,
+    "methods" : {
+      "declared" : 1,
+      "overridden" : 0,
+      "abcStores" : 2
+    }
+  }, {
+    "name" : "B",
+    "isInterface" : false,
+    "superName" : "A",
+    "interfaces" : [ ],
+    "dit" : 1,
+    "fieldsCount" : 4,
+    "methods" : {
+      "declared" : 1,
+      "overridden" : 1,
+      "abcStores" : 1
+    }
+  } ]
+}
+
+

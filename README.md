@@ -18,3 +18,17 @@
 Гайд по использованию ASM: https://asm.ow2.io/asm4-guide.pdf
 
 Дополнительное (необязательное задание): сделайте агента для сбора покрытия по строчкам
+
+## Использование
+
+Сборка fat JAR:
+
+```
+./gradlew shadowJar
+```
+
+Запуск:
+
+```
+java -jar build/libs/metrics-analyzer.jar --input app.jar --json out.json
+```
