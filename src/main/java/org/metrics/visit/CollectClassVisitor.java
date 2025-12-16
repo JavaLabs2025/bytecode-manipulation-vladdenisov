@@ -8,6 +8,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -32,9 +33,7 @@ public final class CollectClassVisitor extends ClassVisitor {
         this.superName = superName;
         this.isInterface = (access & Opcodes.ACC_INTERFACE) != 0;
         if (interfaces != null) {
-            for (String itf : interfaces) {
-                this.interfaces.add(itf);
-            }
+            this.interfaces.addAll(Arrays.asList(interfaces));
         }
         super.visit(version, access, name, signature, superName, interfaces);
     }

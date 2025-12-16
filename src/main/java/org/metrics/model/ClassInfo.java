@@ -16,6 +16,8 @@ public final class ClassInfo {
     public int dit;
     public int overriddenCount;
     public int abcStoresTotal;
+    public int abcBranchesTotal;
+    public int abcConditionsTotal;
 
     public ClassInfo(String name, String superName, List<String> interfaces, boolean isInterface, int fieldsCount) {
         this.name = Objects.requireNonNull(name, "name");

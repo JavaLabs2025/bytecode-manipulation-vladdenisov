@@ -19,6 +19,8 @@ public final class MetricsAggregator {
         int maxDit = 0;
         long ditSum = 0L;
         long totalAbcStores = 0L;
+        long totalAbcBranches = 0L;
+        long totalAbcConditions = 0L;
         long totalMethods = 0L;
         long totalOverridden = 0L;
         long totalFields = 0L;
@@ -34,13 +36,21 @@ public final class MetricsAggregator {
                 totalFields += ci.fieldsCount;
             }
             int classMethodStores = 0;
+            int classMethodBranches = 0;
+            int classMethodConditions = 0;
             int declared = ci.methods.size();
             int overridden = ci.overriddenCount;
             for (MethodInfo mi : ci.methods) {
                 classMethodStores += mi.abcStores;
+                classMethodBranches += mi.abcBranches;
+                classMethodConditions += mi.abcConditions;
             }
             ci.abcStoresTotal = classMethodStores;
+            ci.abcBranchesTotal = classMethodBranches;
+            ci.abcConditionsTotal = classMethodConditions;
             totalAbcStores += classMethodStores;
+            totalAbcBranches += classMethodBranches;
+            totalAbcConditions += classMethodConditions;
             totalMethods += declared;
             totalOverridden += overridden;
 
@@ -54,6 +64,8 @@ public final class MetricsAggregator {
             bc.methods.declared = declared;
             bc.methods.overridden = overridden;
             bc.methods.abcStores = classMethodStores;
+            bc.methods.abcBranches = classMethodBranches;
+            bc.methods.abcConditions = classMethodConditions;
             byClassList.add(bc);
         }
 
@@ -62,8 +74,14 @@ public final class MetricsAggregator {
         summary.inheritanceDepth.max = maxDit;
         summary.inheritanceDepth.avg = classesCount == 0 ? 0.0 : (double) ditSum / classesCount;
         summary.abc.totalStores = (int) totalAbcStores;
+        summary.abc.totalBranches = (int) totalAbcBranches;
+        summary.abc.totalConditions = (int) totalAbcConditions;
         summary.abc.avgStoresPerClass = classesCount == 0 ? 0.0 : (double) totalAbcStores / classesCount;
         summary.abc.avgStoresPerMethod = totalMethods == 0 ? 0.0 : (double) totalAbcStores / totalMethods;
+        summary.abc.avgBranchesPerClass = classesCount == 0 ? 0.0 : (double) totalAbcBranches / classesCount;
+        summary.abc.avgBranchesPerMethod = totalMethods == 0 ? 0.0 : (double) totalAbcBranches / totalMethods;
+        summary.abc.avgConditionsPerClass = classesCount == 0 ? 0.0 : (double) totalAbcConditions / classesCount;
+        summary.abc.avgConditionsPerMethod = totalMethods == 0 ? 0.0 : (double) totalAbcConditions / totalMethods;
         summary.overrides.avgOverriddenMethodsPerClass = classesCount == 0 ? 0.0 : (double) totalOverridden / classesCount;
         summary.fields.avgFieldsPerClass = classesCount == 0 ? 0.0 : (double) totalFields / classesCount;
         report.byClass = byClassList;

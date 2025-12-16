@@ -44,7 +44,13 @@ public class CoreMetricsTest {
         v.visitVarInsn(Opcodes.ISTORE, 0);
         v.visitVarInsn(Opcodes.LSTORE, 3);
         v.visitIincInsn(0, 1);
+        var label = new org.objectweb.asm.Label();
+        v.visitJumpInsn(Opcodes.GOTO, label);
+        v.visitJumpInsn(Opcodes.IFEQ, label);
+        v.visitJumpInsn(Opcodes.IFNULL, label);
         assertEquals(4, mi.abcStores);
+        assertEquals(1, mi.abcBranches);
+        assertEquals(2, mi.abcConditions);
     }
 
     @Test
@@ -98,8 +104,14 @@ public class CoreMetricsTest {
         assertEquals(1, s.inheritanceDepth.max);
         assertEquals(0.5, s.inheritanceDepth.avg);
         assertEquals(3, s.abc.totalStores);
+        assertEquals(0, s.abc.totalBranches);
+        assertEquals(0, s.abc.totalConditions);
         assertEquals(1.5, s.abc.avgStoresPerClass);
         assertEquals(1.5, s.abc.avgStoresPerMethod);
+        assertEquals(0.0, s.abc.avgBranchesPerClass);
+        assertEquals(0.0, s.abc.avgBranchesPerMethod);
+        assertEquals(0.0, s.abc.avgConditionsPerClass);
+        assertEquals(0.0, s.abc.avgConditionsPerMethod);
         assertEquals(0.5, s.overrides.avgOverriddenMethodsPerClass);
         assertEquals(3.0, s.fields.avgFieldsPerClass);
     }

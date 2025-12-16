@@ -16,6 +16,8 @@ public final class ByClass {
         public int declared;
         public int overridden;
         public int abcStores;
+        public int abcBranches;
+        public int abcConditions;
     }
 }
 

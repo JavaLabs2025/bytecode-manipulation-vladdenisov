@@ -39,9 +39,6 @@ public final class Main implements Callable<Integer> {
     @Option(names = {"-o", "--json"}, description = "Path to write JSON report")
     private Path jsonOutput;
 
-    @Option(names = {"-cp", "--classpath"}, description = "Additional classpath (e.g. \"lib/*:rt.jar\")")
-    private String classpath;
-
     @Option(names = {"--fail-on-missing-super"}, description = "Fail if a superclass/interface cannot be resolved")
     private boolean failOnMissingSuper;
 
@@ -60,31 +57,6 @@ public final class Main implements Callable<Integer> {
                     classesByName.put(ci.name, ci);
                 }
             });
-
-            // загружаем внешних предков из classpath
-            if (classpath != null && !classpath.isBlank()) {
-                try (ClasspathLoader loader = new ClasspathLoader(classpath)) {
-                    Deque<String> queue = new ArrayDeque<>();
-                    Set<String> seen = new HashSet<>(classesByName.keySet());
-                    for (ClassInfo ci : classesByName.values()) {
-                        if (ci.superName != null) queue.add(ci.superName);
-                        for (String itf : ci.interfaces) queue.add(itf);
-                    }
-                    while (!queue.isEmpty()) {
-                        String name = queue.removeFirst();
-                        if (name == null || "java/lang/Object".equals(name)) continue;
-                        if (!seen.add(name)) continue;
-                        ClassInfo ext = loader.load(name);
-                        if (ext != null) {
-                            classesByName.put(ext.name, ext);
-                            if (ext.superName != null) queue.add(ext.superName);
-                            for (String itf : ext.interfaces) queue.add(itf);
-                        } else if (failOnMissingSuper) {
-                            throw new IllegalStateException("Missing class on classpath: " + name);
-                        }
-                    }
-                }
-            }
 
             // считаем dit и переопределения
             HierarchyBuilder hierarchy = new HierarchyBuilder();

@@ -7,6 +7,8 @@ public final class MethodInfo {
     public final String descriptor;
     public final int access;
     public int abcStores;
+    public int abcBranches;
+    public int abcConditions;
     public boolean overrides;
 
     public MethodInfo(String name, String descriptor, int access) {

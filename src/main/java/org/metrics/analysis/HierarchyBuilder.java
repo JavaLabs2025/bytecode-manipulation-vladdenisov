@@ -73,7 +73,7 @@ public final class HierarchyBuilder {
             result.add(parent);
             current = parent;
         }
-        // интерфейсы по цепочке (bfs)
+        // интерфейсы по цепочке
         Set<String> visited = new HashSet<>();
         Deque<String> queue = new ArrayDeque<>();
         ClassInfo root = classesByName.get(className);
@@ -101,6 +101,7 @@ public final class HierarchyBuilder {
             }
             current = parent;
         }
+        // интерфейсы по цепочке (bfs)
         while (!queue.isEmpty()) {
             String itf = queue.removeFirst();
             result.add(itf);
